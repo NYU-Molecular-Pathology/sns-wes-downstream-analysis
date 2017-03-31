@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 
-## USAGE: calculate_average_coverages.R /path/to/peaks.bed /path/to/output/annotated_peaks.tsv
-## DESCRIPTION: This script will aggregate average coverages per sample
+## USAGE: calculate_average_coverages.R 
+## DESCRIPTION: This script will aggregate average coverages per sample from sns-wes pipeline output
 
 # ~~~~~~~ FUNCTIONS ~~~~~~~ #
 
