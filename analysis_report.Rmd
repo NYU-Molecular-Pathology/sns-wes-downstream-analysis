@@ -12,6 +12,8 @@ output:
 params:
   run_analysis_output_dir: run_analysis_output
   sns_wes_coverage_analysis_dir: sns-wes-coverage-analysis
+  project_ID_file: project_ID.txt
+  results_ID_file: results_ID.txt
 ---
 <!-- Setup the R code to be used in R Markdown generation throughout the report -->
 ```{r setup, include=FALSE} 
@@ -69,6 +71,12 @@ chrom_regions2df <- function(regions){
 report_dir <- getwd() # setwd(report_dir)
 sns_wes_coverage_analysis_dir <- params$sns_wes_coverage_analysis_dir
 run_analysis_output_dir <- params$run_analysis_output_dir
+project_ID_file <- params$project_ID_file
+results_ID_file <- params$results_ID_file
+
+project_ID <- get_file_content(project_ID_file)
+results_ID <- get_file_content(results_ID_file)
+
 summary_combined_table_file <- file.path(run_analysis_output_dir, "summary-combined.wes.csv")
 
 summary_combined_table <- read.delim(file = summary_combined_table_file, sep = ',')
