@@ -178,7 +178,15 @@ lo_freq_plot <- ggplot(data = lo_freq_table, aes(x = sample, y = mutations, fill
 
 ```
 
-# Sample Information
+# Overview
+
+Project ID:
+
+`r project_ID`
+
+Results ID:
+
+`r results_ID`
 
 ```{r, results='asis'}
 kable(samples_df, row.names = TRUE, caption = "Samples included in the analysis") # , align = c("c")
