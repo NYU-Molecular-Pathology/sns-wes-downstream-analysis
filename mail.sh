@@ -36,6 +36,14 @@ report_file="${project_ID}_${results_ID}_analysis_report.html"
 # make sure samples list exists
 [ ! -f "../samples.fastq-raw.csv" ] && printf "\nERROR: Samples list file not found:\n%s\n\n" "../samples.fastq-raw.csv"
 
+# make sure the final summary table exists
+[ ! -f "../summary-combined.wes.csv" ] && printf "\nERROR: Summary table file not found:\n%s\n\n" "../summary-combined.wes.csv"
+
+# copy the summary table with new name
+source_summary_table="$(readlink -f ../summary-combined.wes.csv)"
+output_summary_table="${project_ID}_${results_ID}_summary-combined.wes.csv"
+/bin/cp "$source_summary_table" "$output_summary_table"
+
 file_owner="$(ls -ld "$report_file" | awk '{print $3}')"
 file_date="$(ls -l --time-style=long-iso "$report_file" | awk '{print $6 " " $7}')"
 file_fullpath="$(readlink -f "$report_file")"
@@ -64,4 +72,4 @@ $(cat ../samples.fastq-raw.csv | cut -d ',' -f1 | sort -u)
 ${message_footer}
 E02
 
-./toolbox/mutt.py -r "${recipient_list}" -rt "$reply_to" -mf "$email_message_file" -s "$subject_line_report" "$report_file" "$zip_filename"
+./toolbox/mutt.py -r "${recipient_list}" -rt "$reply_to" -mf "$email_message_file" -s "$subject_line_report" "$report_file" "$zip_filename" "$output_summary_table"
