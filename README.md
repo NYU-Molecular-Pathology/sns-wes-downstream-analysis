@@ -16,7 +16,7 @@ cd sns-output-dir
 - Clone this repository and enter the directory
 
 ```bash
-git clone https://github.com/NYU-Molecular-Pathology/sns-wes-downstream-analysis.git
+git clone --recursive https://github.com/NYU-Molecular-Pathology/sns-wes-downstream-analysis.git
 cd sns-wes-downstream-analysis
 ```
 
