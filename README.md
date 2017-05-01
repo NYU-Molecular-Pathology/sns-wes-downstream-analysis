@@ -10,7 +10,7 @@ Downstream analysis of SNS WES pipeline output.
 - Enter the directory you ran the SNS pipeline in 
 
 ```
-cd sns-output-dir
+cd <sns-output-dir>
 ```
 
 - Clone this repository and enter the directory
