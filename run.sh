@@ -27,14 +27,18 @@ printf "%s" "$results_ID" > results_ID.txt
 
 # get the annotations for all samples
 gatk_annotations_file="${project_ID}_${results_ID}_GATK_annotations.tsv"
-find "run_analysis_output/VCF-GATK-HC-annot/" -name "*.combined.txt" | xargs ./toolbox/concat_tables.py > "$gatk_annotations_file"
+printf "Find all GATK variants...\n"
+find "run_analysis_output/VCF-GATK-HC-annot/" -name "*.combined.txt" | xargs ./toolbox/concat_tables.py > "$gatk_annotations_file" && printf "Variants saved to file:\n%s\n\n" "$gatk_annotations_file"
 
 lofreq_annotations_file="${project_ID}_${results_ID}_LoFreq_annotations.tsv"
-find "run_analysis_output/VCF-LoFreq-annot/" -name "*.combined.txt" | xargs ./toolbox/concat_tables.py > "$lofreq_annotations_file"
+printf "Finding all LoFreq variants...\n"
+find "run_analysis_output/VCF-LoFreq-annot/" -name "*.combined.txt" | xargs ./toolbox/concat_tables.py > "$lofreq_annotations_file" && printf "Variants saved to file:\n%s\n\n" "$lofreq_annotations_file"
 
 # make a copy of the report template file
 report_file="${project_ID}_${results_ID}_analysis_report.Rmd"
+printf "Generating report file:\n%s\n\n" "$report_file"
 /bin/cp analysis_report.Rmd "$report_file"
 
 # compile the report
+printf "Compiling report file:\n%s\n\n" "$report_file"
 ./compile_RMD_report.R "$report_file"
