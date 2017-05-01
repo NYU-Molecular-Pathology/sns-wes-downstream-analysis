@@ -97,11 +97,12 @@ mapping_table["deduplicated"] <- summary_combined_table[["DEDUPLICATED.READS"]]
 
 mapping_table <- reshape2::melt(mapping_table,id.vars="sample",variable.name="type",value.name="reads")
 
-mapping_table[["reads"]] <- mapping_table[["reads"]] / 1e6
+mapping_table[["reads"]] <- as.numeric(mapping_table[["reads"]]) / 1e6
 
 mapping_table[["type"]] <- factor(x = mapping_table[["type"]], levels = sort(unique(as.character(mapping_table[["type"]]), decreasing = TRUE)))
 
 mapping_plot <- ggplot(data = mapping_table, aes(x = sample, y = reads, fill = type)) + geom_bar(stat="identity", position = "dodge") + ggtitle("Sample Read Mapping") + coord_flip() + ylab("reads (millions)")  
+save.image(file="make_mapping_table_data.Rdata",compress = TRUE)
 
 ```
 

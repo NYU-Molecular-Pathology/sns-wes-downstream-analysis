@@ -25,16 +25,16 @@ module load pandoc/1.13.1
 printf "%s" "$project_ID" > project_ID.txt
 printf "%s" "$results_ID" > results_ID.txt
 
-# make a copy of the report template file
-report_file="${project_ID}_${results_ID}_analysis_report.Rmd"
-/bin/cp analysis_report.Rmd "$report_file"
-
-# compile the report
-./compile_RMD_report.R "$report_file"
-
 # get the annotations for all samples
 gatk_annotations_file="${project_ID}_${results_ID}_GATK_annotations.tsv"
 find "run_analysis_output/VCF-GATK-HC-annot/" -name "*.combined.txt" | xargs ./toolbox/concat_tables.py > "$gatk_annotations_file"
 
 lofreq_annotations_file="${project_ID}_${results_ID}_LoFreq_annotations.tsv"
 find "run_analysis_output/VCF-LoFreq-annot/" -name "*.combined.txt" | xargs ./toolbox/concat_tables.py > "$lofreq_annotations_file"
+
+# make a copy of the report template file
+report_file="${project_ID}_${results_ID}_analysis_report.Rmd"
+/bin/cp analysis_report.Rmd "$report_file"
+
+# compile the report
+./compile_RMD_report.R "$report_file"
