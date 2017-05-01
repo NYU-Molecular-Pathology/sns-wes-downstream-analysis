@@ -20,12 +20,6 @@ git clone https://github.com/NYU-Molecular-Pathology/sns-wes-downstream-analysis
 cd sns-wes-downstream-analysis
 ```
 
-- Set the symlink to the directory holding your SNS results
-
-```bash
-ln -fs /path/to/sns-wes_results
-```
-
 - Run 
 
 ```
