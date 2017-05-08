@@ -141,23 +141,44 @@ average_coverage_per_region_table <- read.delim(file.path(sns_wes_coverage_analy
 average_coverage_per_region_plot <- ggplot(data=average_coverage_per_region_table, aes(average_coverage_per_region_table$V2)) + geom_histogram(binwidth = 50) + ggtitle("Average Coverage per Region Histogram") + ylab("number of regions") + xlab("average coverage value")
 
 ## # # # # 
+print_50_coverage_regions <- function(){
+    regions_file <- file.path(sns_wes_coverage_analysis_dir, "regions_coverage_below_50_annotation.tsv")
+    num_lines <-  length(readLines(regions_file))
+    # check for >0 lines
+    if(num_lines > 0){
+        # get the data
+        regions_coverage_below_50_annotation_table <- read.delim(regions_file)
+        
+        
+        setnames(x = regions_coverage_below_50_annotation_table, old = c("external_gene_name", "seqnames", "gene_biotype"), new = c("gene", "chrom", "biotype"))
+        
+        regions_coverage_below_50_annotation_table <- regions_coverage_below_50_annotation_table[order(regions_coverage_below_50_annotation_table[["gene"]]),]
+        regions_coverage_below_50_annotation_table <- reindex_rownames(regions_coverage_below_50_annotation_table)
+        
+        # print the Markdown and HTML output
+        datatable(regions_coverage_below_50_annotation_table[low_cov_cols])
+    } else {
+        mycat("No regions found.")
+    }
+}
 
-regions_coverage_below_50_annotation_table <- read.delim(file.path(sns_wes_coverage_analysis_dir, "regions_coverage_below_50_annotation.tsv"))
-
-
-setnames(x = regions_coverage_below_50_annotation_table, old = c("external_gene_name", "seqnames", "gene_biotype"), new = c("gene", "chrom", "biotype"))
-
-regions_coverage_below_50_annotation_table <- regions_coverage_below_50_annotation_table[order(regions_coverage_below_50_annotation_table[["gene"]]),]
-regions_coverage_below_50_annotation_table <- reindex_rownames(regions_coverage_below_50_annotation_table)
-
-
-
-
-## # # # # 
-regions_0_coverage_annotation_table <- read.delim(file.path(sns_wes_coverage_analysis_dir, "regions_with_coverage_0_annotation.tsv"))
-setnames(x = regions_0_coverage_annotation_table, old = c("external_gene_name", "seqnames", "gene_biotype"), new = c("gene", "chrom", "biotype"))
-regions_0_coverage_annotation_table <- regions_0_coverage_annotation_table[order(regions_0_coverage_annotation_table[["gene"]]),]
-regions_0_coverage_annotation_table <- reindex_rownames(regions_0_coverage_annotation_table)
+print_0_coverage_regions <- function(){
+    regions_file <- file.path(sns_wes_coverage_analysis_dir, "regions_with_coverage_0_annotation.tsv")
+    num_lines <-  length(readLines(regions_file))
+    # check for >0 lines
+    if(num_lines > 0){
+        # get the data
+        regions_0_coverage_annotation_table <- read.delim()
+        setnames(x = regions_0_coverage_annotation_table, old = c("external_gene_name", "seqnames", "gene_biotype"), new = c("gene", "chrom", "biotype"))
+        regions_0_coverage_annotation_table <- regions_0_coverage_annotation_table[order(regions_0_coverage_annotation_table[["gene"]]),]
+        regions_0_coverage_annotation_table <- reindex_rownames(regions_0_coverage_annotation_table)
+        
+        # print the Markdown and HTML output
+        datatable(regions_0_coverage_annotation_table[low_cov_cols])
+    } else {
+        mycat("No regions found.")
+    }
+}
 
 
 ```
@@ -226,13 +247,13 @@ print(average_coverage_per_region_plot)
 ## Regions With Low Coverage (<50)
 
 ```{r}
-datatable(regions_coverage_below_50_annotation_table[low_cov_cols])
+print_50_coverage_regions()
 ```
 
 ## Regions with 0 Coverage
 
 ```{r}
-datatable(regions_0_coverage_annotation_table[low_cov_cols])
+print_0_coverage_regions()
 ```
 
 # Variant Calling
