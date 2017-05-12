@@ -87,6 +87,7 @@ save.image(file="load_report_data.Rdata",compress = TRUE)
 
 ```{r, samples_table}
 samples_df <- summary_combined_table[, "sample", drop = FALSE]
+samples <- as.character(summary_combined_table[["sample"]])
 ```
 
 ```{r, mapping_table}
@@ -197,7 +198,14 @@ lo_freq_table <- lo_freq_table_og
 lo_freq_table <- reshape2::melt(lo_freq_table, id.vars="sample",variable.name="type",value.name="mutations")
 lo_freq_table[["type"]] <- gsub(pattern = '.muts', replacement = '', x = as.character(lo_freq_table[["type"]]))
 lo_freq_plot <- ggplot(data = lo_freq_table, aes(x = sample, y = mutations, fill = type)) + geom_bar(stat="identity", position = "dodge") + ggtitle("Number of Mutations per Sample") + coord_flip()
-
+# # # # # 
+GATK_summary_file <- file.path(run_analysis_output_dir, "VCF-GATK-HC-annot.all.txt")
+LoFreq_summary_file <- file.path(run_analysis_output_dir, "VCF-LoFreq-annot.all.txt")
+# GATK_summary_df <- read.delim(file = GATK_summary_file, header = TRUE, sep = '\t')
+# GATK_summary_plot <- ggplot(read.delim(file = GATK_summary_file, header = TRUE, sep = '\t'), aes(x = QUAL, fill = SAMPLE)) + geom_histogram(binwidth = 100, alpha = 0.7) + ggtitle("GATK Variant Quality Scores") + xlab("Quality Score")  
+# LoFreq_summary_plot <- ggplot(read.delim(file = LoFreq_summary_file, header = TRUE, sep = '\t'), aes(x = QUAL, fill = SAMPLE)) + geom_histogram(binwidth = 100, alpha = 0.7) + ggtitle("LoFreq Variant Quality Scores") + xlab("Quality Score")  
+GATK_summary_plot <- ggplot(read.delim(file = GATK_summary_file, header = TRUE, sep = '\t'), aes(x=SAMPLE, y=QUAL, fill=SAMPLE)) + geom_boxplot() + guides(fill=FALSE) + coord_flip() + ggtitle("GATK Variant Quality Scores") 
+LoFreq_summary_plot <- ggplot(read.delim(file = LoFreq_summary_file, header = TRUE, sep = '\t'), aes(x=SAMPLE, y=QUAL, fill=SAMPLE)) + geom_boxplot() + guides(fill=FALSE) + coord_flip() + ggtitle("LoFreq Variant Quality Scores") 
 ```
 
 # Overview
@@ -213,7 +221,6 @@ Results ID:
 ```{r, results='asis'}
 kable(samples_df, row.names = TRUE, caption = "Samples included in the analysis") # , align = c("c")
 # datatable(samples_df, caption = "Samples included in the analysis")
-
 ```
 
 ## Mapping
@@ -256,36 +263,54 @@ print_50_coverage_regions()
 print_0_coverage_regions()
 ```
 
-# Variant Calling
+# Variant Calling {.tabset .tabset-pills}
 
 ## Haplotype Calling {.tabset .tabset-pills}
 
-### Plot
+### GATK
+
+#### Number of Mutations {.tabset .tabset-pills}
+
+##### Plot
 
 ```{r}
 print(haplotype_caller_plot)
 ```
 
-### Table
+##### Table
 
 ```{r}
 datatable(haplotype_caller_table_og)
 ```
 
-## Lo Freq {.tabset .tabset-pills}
+#### Quality Scores {.tabset .tabset-pills}
 
-### Plot 
+```{r}
+print(GATK_summary_plot)
+```
+
+
+### Lo Freq 
+
+#### Number of Mutations {.tabset .tabset-pills}
+
+##### Plot
 
 ```{r}
 print(lo_freq_plot)
 ```
 
-### Table
+##### Table
 
 ```{r}
 datatable(lo_freq_table_og)
 ```
 
+#### Quality Scores {.tabset .tabset-pills}
+
+```{r}
+print(LoFreq_summary_plot)
+```
 
 # System Information {.tabset .tabset-pills}
 
