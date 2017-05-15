@@ -169,7 +169,7 @@ print_0_coverage_regions <- function(){
     # check for >0 lines
     if(num_lines > 0){
         # get the data
-        regions_0_coverage_annotation_table <- read.delim()
+        regions_0_coverage_annotation_table <- read.delim(regions_file)
         setnames(x = regions_0_coverage_annotation_table, old = c("external_gene_name", "seqnames", "gene_biotype"), new = c("gene", "chrom", "biotype"))
         regions_0_coverage_annotation_table <- regions_0_coverage_annotation_table[order(regions_0_coverage_annotation_table[["gene"]]),]
         regions_0_coverage_annotation_table <- reindex_rownames(regions_0_coverage_annotation_table)
@@ -312,25 +312,26 @@ datatable(lo_freq_table_og)
 print(LoFreq_summary_plot)
 ```
 
-# System Information {.tabset .tabset-pills}
+# System Information 
+
+```{r}
+# {.tabset .tabset-pills}
 
 ## Hide
 
 ## Show
-
-```{r}
 # system info
-system("uname -srv", intern = TRUE)
-
+mycat(sprintf("System:\n%s\n%s", system("hostname", intern = TRUE), system("uname -srv", intern = TRUE)))
+mycat(sprintf("System user:\n%s", system("whoami", intern = TRUE)))
 # dir
-system('pwd',intern=T)
+mycat(sprintf("System location:\n%s", system('pwd',intern=T)))
 
 # repo info
-system('git remote -v',intern=T)
-system('printf "%s\t%s" "$(git rev-parse --abbrev-ref HEAD)" "$(git rev-parse HEAD)"',intern=T)
+mycat(sprintf("Git Remote:\n%s\n", system('git remote -v',intern=T)))
+mycat(sprintf("Git branch and commit\n%s", system('printf "%s: %s" "$(git rev-parse --abbrev-ref HEAD)" "$(git rev-parse HEAD)"',intern=T)))
 
 # date time
-system("date", intern = TRUE)
+mycat(sprintf("Time and Date of report creation:\n%s", system("date", intern = TRUE)))
 
 # R system info, packages, etc
 sessionInfo()
