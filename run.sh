@@ -40,6 +40,15 @@ module load pandoc/1.13.1
 printf "%s" "$project_ID" > project_ID.txt
 printf "%s" "$results_ID" > results_ID.txt
 
+# look for RunParameters.xml one level up
+[ -f "../RunParameters.xml" ] && ln -fs "../RunParameters.xml"
+
+# look for RunParameters.txt one level up
+[ -f "../RunParameters.txt" ] && ln -fs "../RunParameters.txt"
+
+# look for ExperimentName.txt one level up
+[ -f "../ExperimentName.txt" ] && ln -fs "../ExperimentName.txt"
+
 # get the annotations for all samples
 gatk_annotations_file="${project_ID}_${results_ID}_GATK_annotations.tsv"
 printf "Find all GATK variants...\n"
@@ -51,7 +60,7 @@ spinner
 
 lofreq_annotations_file="${project_ID}_${results_ID}_LoFreq_annotations.tsv"
 printf "Finding all LoFreq variants...\n"
-(find "run_analysis_output/VCF-LoFreq-annot/" -name "*.combined.txt" | xargs ./toolbox/concat_tables.py > "$lofreq_annotations_file" && printf "Variants saved to file:\n%s\n\n" "$lofreq_annotations_file") & 
+(find "run_analysis_output/VCF-LoFreq-annot/" -name "*.combined.txt" | xargs ./toolbox/concat_tables.py > "$lofreq_annotations_file" && printf "Variants saved to file:\n%s\n\n" "$lofreq_annotations_file") &
 spinner
 
 # make a copy of the report template file

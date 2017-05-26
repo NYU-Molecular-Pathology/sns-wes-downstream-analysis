@@ -39,6 +39,23 @@ report_file="${project_ID}_${results_ID}_analysis_report.html"
 # make sure the final summary table exists
 [ ! -f "../summary-combined.wes.csv" ] && printf "\nERROR: Summary table file not found:\n%s\n\n" "../summary-combined.wes.csv"
 
+# check for RunParameters.xml and RunParameters.txt; it might not exist
+RunParameters_file=""
+if [ -f "../RunParameters.xml" ]; then
+    RunParameters_file="../RunParameters.xml"
+fi
+
+RunParameters_message="" # default message
+if [ -f "../RunParameters.txt" ]; then
+    RunParameters_message="$(cat ../RunParameters.txt)"
+fi
+
+ExperimentName="" # default message
+if [ -f "../ExperimentName.txt" ]; then
+    ExperimentName="$(cat ../ExperimentName.txt)"
+fi
+
+
 # copy the summary table with new name
 source_summary_table="$(readlink -f ../summary-combined.wes.csv)"
 output_summary_table="${project_ID}_${results_ID}_summary-combined.wes.csv"
@@ -49,9 +66,10 @@ file_date="$(ls -l --time-style=long-iso "$report_file" | awk '{print $6 " " $7}
 file_fullpath="$(readlink -f "$report_file")"
 
 reply_to="kellys04@nyumc.org"
+# recipient_list="$reply_to"
 recipient_list="kellys04@nyumc.org, Yehonatan.Kane@nyumc.org, Matija.Snuderl@nyumc.org, Naima.Ismaili@nyumc.org, Aristotelis.Tsirigos@nyumc.org, Jared.Pinnell@nyumc.org, Varshini.Vasudevaraja@nyumc.org"
 message_footer="- This message was sent automatically by $(whoami) -"
-subject_line_report="[NGS580] ${project_ID} Report & Results"
+subject_line_report="[NGS580] ${project_ID} - $ExperimentName Report & Results"
 
 email_message_file="email_message.txt"
 cat > "$email_message_file" <<E02
@@ -63,13 +81,15 @@ ${project_ID}
 Results ID:
 ${results_ID}
 
-System location:
-${file_fullpath}
-
 Samples List:
 $(cat ../samples.fastq-raw.csv | cut -d ',' -f1 | sort -u)
+
+$RunParameters_message
+
+System location:
+${file_fullpath}
 
 ${message_footer}
 E02
 
-./toolbox/mutt.py -r "${recipient_list}" -rt "$reply_to" -mf "$email_message_file" -s "$subject_line_report" "$report_file" "$zip_filename" "$output_summary_table"
+./toolbox/mutt.py -r "${recipient_list}" -rt "$reply_to" -mf "$email_message_file" -s "$subject_line_report" "$report_file" "$zip_filename" "$output_summary_table" $RunParameters_file
