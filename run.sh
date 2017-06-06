@@ -36,6 +36,9 @@ results_ID="$2"
 module load pandoc/1.13.1
 
 # ~~~~~ RUN ~~~~~ #
+# check for errors
+grep "ERROR:" ../logs-qsub/*
+
 # set project_ID items for report
 printf "%s" "$project_ID" > project_ID.txt
 printf "%s" "$results_ID" > results_ID.txt
