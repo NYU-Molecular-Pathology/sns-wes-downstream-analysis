@@ -67,7 +67,7 @@ file_fullpath="$(readlink -f "$report_file")"
 
 reply_to="kellys04@nyumc.org"
 # recipient_list="$reply_to"
-recipient_list="kellys04@nyumc.org, Yehonatan.Kane@nyumc.org, Matija.Snuderl@nyumc.org, Naima.Ismaili@nyumc.org, Aristotelis.Tsirigos@nyumc.org, Jared.Pinnell@nyumc.org, Varshini.Vasudevaraja@nyumc.org"
+recipient_list="kellys04@nyumc.org, Matija.Snuderl@nyumc.org, Naima.Ismaili@nyumc.org, Aristotelis.Tsirigos@nyumc.org, Jared.Pinnell@nyumc.org, Varshini.Vasudevaraja@nyumc.org, Tatyana.Zhuravleva@nyumc.org, Hussein.Mohamed@nyumc.org"
 message_footer="- This message was sent automatically by $(whoami) -"
 subject_line_report="[NGS580] ${project_ID} - $ExperimentName Report & Results"
 
