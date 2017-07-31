@@ -1,6 +1,12 @@
 # sns-wes-downstream-analysis
 Downstream analysis of SNS WES pipeline output.
 
+# Example Output
+__[[ A full HTML version of the report output can be previewed [here](http://htmlpreview.github.io/?https://github.com/NYU-Molecular-Pathology/sns-wes-downstream-analysis/blob/fb5ba3eaf1b565c384343419b4cabd461675e8f9/demo-output_results1_analysis_report.html) or [here](https://cdn.rawgit.com/NYU-Molecular-Pathology/sns-wes-downstream-analysis/fb5ba3eaf1b565c384343419b4cabd461675e8f9/demo-output_results1_analysis_report.html). ]]__
+
+
+
+
 # Usage
 
 - First, run the SNS WES pipeline: https://github.com/igordot/sns
@@ -32,8 +38,6 @@ Example:
 run.sh "NS17-03" "RUN_4"
 ```
 
-# Output
-[coming soon]
 
 # Software Requirements
 - pandoc version 1.13+ 
